@@ -5,27 +5,20 @@ const styles = {
     container: true,
     item: true,
     desktopLarge: 3,
-    laptop: 4,
+    laptop: 3,
   },
-  cardProps: (backgroundImgURL) => ({
+  cardProps: (isPublished) => ({
     elevation: 5,
     sx: {
       display: 'flex',
+      flexDirection: 'column',
       justifyContent: 'center',
       alignItems: 'flex-end',
       position: 'relative',
-      height: '200px',
       width: '100%',
-      borderRadius: '10px',
+      borderRadius: '12px',
       overflow: 'hidden',
-      p: 2,
-      ...(backgroundImgURL && {
-        backgroundImage: `url(${backgroundImgURL})`,
-        backgroundSize: 'cover',
-      }),
-      ...(!backgroundImgURL && {
-        background: getRandomBackgroundColor(),
-      }),
+      cursor: isPublished ? 'pointer' : 'default !important',
       transition: (theme) => theme.transitions.create('all'),
       '&:hover': {
         cursor: 'pointer',
@@ -33,19 +26,42 @@ const styles = {
       },
     },
   }),
+  imageProps: (backgroundImgURL) => ({
+    width: '100%',
+    height: '144px',
+    justifyContent: 'end',
+    sx: {
+      flexShrink: 0,
+      ...(backgroundImgURL && {
+        backgroundImage: `url(${backgroundImgURL})`,
+        backgroundSize: 'cover',
+      }),
+      ...(!backgroundImgURL && {
+        background: getRandomBackgroundColor(),
+      }),
+    },
+  }),
   toolDetailsGridProps: {
-    position: 'relative',
+    display: 'position',
     container: true,
     item: true,
     mobileSmall: 12,
     rowGap: 1.5,
-    justifyContent: 'flex-start',
+    justifyContent: 'flex-end',
     alignItems: 'center',
+    p: '18px',
   },
   titleProps: {
     fontFamily: 'Satoshi Bold',
     fontSize: '16px',
     color: (theme) => theme.palette.Common.White['100p'],
+    sx: {
+      display: '-webkit-box',
+      WebkitLineClamp: 1,
+      WebkitBoxOrient: 'vertical',
+      overflow: 'hidden',
+      width: 'calc(100% - 16px)',
+    },
   },
   contentGridProps: {
     container: true,
@@ -57,28 +73,28 @@ const styles = {
   },
   descriptionProps: {
     fontFamily: 'Satoshi Regular',
-    fontSize: '14px',
+    fontSize: '12px',
     color: (theme) => theme.palette.Common.White['100p'],
-    textOverflow: 'ellipsis',
-    overflow: 'hidden',
     sx: {
       display: '-webkit-box',
-      WebkitLineClamp: 1,
+      WebkitLineClamp: 2,
       WebkitBoxOrient: 'vertical',
+      height: '3em',
     },
   },
-  imageProps: {
-    layout: 'fill',
-    objectFit: 'fill',
-  },
-  imageGridProps: {
-    position: 'relative',
-    container: true,
-    item: true,
-    width: 48,
-    height: 48,
-    borderRadius: '50%',
-  },
+  labelProps: (isPublished) => ({
+    size: 'small',
+    variant: 'outlined',
+    label: isPublished ? 'Build Now' : 'Coming Soon',
+    sx: {
+      borderColor: isPublished ? '#AC92FF' : '#9D74FF',
+      background: isPublished ? '#AC92FF' : '',
+      '.MuiChip-icon': {
+        color: 'white',
+        ml: '6px',
+      },
+    },
+  }),
 };
 
 export default styles;

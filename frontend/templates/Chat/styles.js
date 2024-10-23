@@ -13,19 +13,11 @@ const styles = {
   mainGridProps: {
     container: true,
     item: true,
-    flexDirection: 'column',
+    flexDirection: 'row',
     justifyContent: 'center',
-    alignItems: 'center',
-    mobileSmall: 12,
-    height: '100%',
-    overflow: 'hidden',
-    sx: {
-      position: 'relative',
-      form: {
-        width: '100%',
-        height: '100%',
-      },
-    },
+    alignItems: 'flex-start',
+    rowGap: 5,
+    maxWidth: 1200,
   },
   moreChat: {
     moreChatProps: {
