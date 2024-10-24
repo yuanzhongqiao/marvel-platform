@@ -80,6 +80,7 @@ const styles = {
       WebkitLineClamp: 2,
       WebkitBoxOrient: 'vertical',
       height: '3em',
+      overflow: 'hidden',
     },
   },
   labelProps: (isPublished) => ({
