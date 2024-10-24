@@ -47,7 +47,12 @@ const ToolForm = (props) => {
         name,
         value,
       }));
-      dispatch(setPrompt(values));
+      dispatch(
+        setPrompt({
+          ...values,
+          files: files ? files.map((file) => file.name) : [],
+        })
+      ); // Only dispatch file names if files are present
       dispatch(setCommunicatorLoading(true));
 
       const response = await submitPrompt(

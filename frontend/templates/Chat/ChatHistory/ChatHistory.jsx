@@ -83,7 +83,7 @@ const ChatHistory = () => {
   const dispatch = useDispatch();
 
   // The state of whether the history is loaded from the Redux store.
-  const historyLoaded = useSelector((state) => state.history.historyLoaded);
+  const historyLoaded = useSelector((state) => state.history?.historyLoaded);
 
   // The chat history from the Redux store.
   const chatHistory = useSelector((state) => state.history.history);

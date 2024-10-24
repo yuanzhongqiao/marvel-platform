@@ -326,11 +326,16 @@ const saveResponseToFirestore = async (sessionData) => {
  * @return {Promise<Object>} - A promise that resolves to an object containing the status and data of the chat sessions.
  * @throws {HttpsError} Throws an error if there is an internal error.
  */
-const createChatSession = onCall(async (props) => {
+const createChatSession = onCall(async (props, context) => {
   try {
     DEBUG && logger.log('Communicator started, data:', props.data);
 
     const { user, message, type, systemMessage } = props.data;
+
+    // Ensure user id in context is same as user.id
+    if (context.auth.uid !== user.id) {
+      throw new HttpsError('permission-denied', 'User ID does not match the authenticated user');
+    }
 
     if (!user || !message || !type) {
       logger.log('Missing required fields', props.data);
