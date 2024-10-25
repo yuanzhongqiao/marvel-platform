@@ -28,11 +28,6 @@ const RESPONSE_OUTPUTS = {
   [TOOLS_ID.GEMINI_QUIZIFY]: MultipleChoiceResponse,
 };
 
-const RESPONSE_OUTPUTS = {
-  [TOOLS_ID.GEMINI_DYNAMO]: FlashCardList,
-  [TOOLS_ID.GEMINI_QUIZIFY]: MultipleChoiceResponse,
-};
-
 const ToolPage = (props) => {
   const { toolDoc } = props;
   const router = useRouter();
