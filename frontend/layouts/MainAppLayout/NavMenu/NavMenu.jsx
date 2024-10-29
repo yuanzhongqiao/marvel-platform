@@ -21,12 +21,6 @@ const PAGES = [
     id: 'page_1',
   },
   {
-    name: 'Discovery',
-    link: ROUTES.CHAT,
-    icon: <DiscoveryIcon />,
-    id: 'page_2',
-  },
-  {
     name: 'Chat',
     link: ROUTES.CHAT,
     icon: <ChatBubble />,
