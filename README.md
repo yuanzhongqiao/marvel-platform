@@ -1,5 +1,19 @@
+![image](https://github.com/user-attachments/assets/534112c1-12fb-42dd-b170-988687a02dae)
 # Marvel AI Platform
 Marvel is an open source project by Radical having chatbot and smart tools for teachers.
+
+![Next.js](https://img.shields.io/badge/Next.js-12.3.0-blue)
+![React](https://img.shields.io/badge/React-18.2.0-blue)
+![Redux Toolkit](https://img.shields.io/badge/Redux%20Toolkit-%5E1.9.5-purple)
+![Emotion](https://img.shields.io/badge/Emotion-%5E11.11.0-pink)
+![MUI](https://img.shields.io/badge/MUI-%5E5.13.0-blue)
+![Firebase](https://img.shields.io/badge/Firebase-%5E9.22.0-orange)
+![Axios](https://img.shields.io/badge/Axios-%5E1.4.0-brightgreen)
+![React Hook Form](https://img.shields.io/badge/React%20Hook%20Form-%5E7.43.9-lightgrey)
+![Remark](https://img.shields.io/badge/Remark-%5E15.0.1-yellow)
+![ESLint](https://img.shields.io/badge/ESLint-%5E8.40.0-blue)
+![Prettier](https://img.shields.io/badge/Prettier-%5E2.8.8-ff69b4)
+![Husky](https://img.shields.io/badge/Husky-%5E9.0.11-yellow)
 
 ## Table of Contents
 
