@@ -1,4 +1,6 @@
-![image](https://github.com/user-attachments/assets/534112c1-12fb-42dd-b170-988687a02dae)
+![image](https://github.com/user-attachments/assets/04e5f5a4-9ba7-4887-a158-bca181f7391c)
+
+
 # Marvel AI Platform
 Marvel is an open source project by Radical having chatbot and smart tools for teachers.
 
