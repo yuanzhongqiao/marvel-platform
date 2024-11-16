@@ -12,6 +12,10 @@ const styles = {
       backdropFilter: 'blur(47px)',
       borderRadius: '10px',
     },
+    md: {
+      padding: '8px 24px',
+      borderRadius: '10px',
+    },
   },
   logoGridProps: {
     sx: {

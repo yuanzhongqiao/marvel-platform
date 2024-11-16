@@ -8,6 +8,8 @@ const INPUT_TYPES = {
   TIME: 'time',
   DATETIME: 'datetime-local',
   CHECKBOX: 'checkbox',
+  SELECT: 'select',
+  TEXT_CONTENT: 'text_content',
 };
 
 export { INPUT_TYPES };

@@ -1,11 +1,8 @@
 import { useContext } from 'react';
-
 import { Help } from '@mui/icons-material';
-import { Grid, Tooltip, Typography, useTheme } from '@mui/material';
-import { FormContainer } from 'react-hook-form-mui';
+import { Grid, Tooltip, Typography, useTheme, TextField } from '@mui/material';
+import { FormContainer, useForm, useWatch } from 'react-hook-form-mui';
 import { useDispatch, useSelector } from 'react-redux';
-
-import useWatchFields from '@/hooks/useWatchFields';
 
 import GradientOutlinedButton from '@/components/GradientOutlinedButton';
 import PrimaryFileUpload from '@/components/PrimaryFileUpload';
@@ -27,6 +24,7 @@ import {
 import { firestore } from '@/redux/store';
 import { fetchToolHistory } from '@/redux/thunks/toolHistory';
 import submitPrompt from '@/services/tools/submitPrompt';
+import evaluateCondition from './utils/evaluateCondition';
 
 const ToolForm = (props) => {
   const { id, inputs } = props;
@@ -35,8 +33,19 @@ const ToolForm = (props) => {
   const { handleOpenSnackBar } = useContext(AuthContext);
   const { communicatorLoading } = useSelector((state) => state.tools);
   const { data: userData } = useSelector((state) => state.user);
-  const { register, control, handleSubmit, getValues, setValue, errors } =
-    useWatchFields([]);
+
+  // Extract default values from inputs
+  const defaultValues = inputs.reduce((acc, input) => {
+    if (input.defaultValue !== undefined) {
+      acc[input.name] = input.defaultValue;
+    }
+    return acc;
+  }, {});
+
+  const { register, control, handleSubmit, setValue, errors } = useForm({
+    defaultValues,
+  });
+  const watchedValues = useWatch({ control });
 
   const handleSubmitMultiForm = async (values) => {
     try {
@@ -116,8 +125,42 @@ const ToolForm = (props) => {
     );
   };
 
+  const renderNumberInput = (inputProps) => {
+    const { name: inputName, placeholder, tooltip, label } = inputProps;
+    const renderLabel = () => (
+      <Grid {...styles.textFieldLabelGridProps}>
+        <Typography {...styles.labelProps(errors?.[inputName])}>
+          {label}
+        </Typography>
+        {tooltip && (
+          <Tooltip placement="top" title={tooltip} sx={{ ml: 1 }}>
+            <Help />
+          </Tooltip>
+        )}
+      </Grid>
+    );
+    
+    return (
+      <Grid key={inputName} {...styles.inputGridProps}>
+        <PrimaryTextFieldInput
+          id={inputName}
+          name={inputName}
+          title={renderLabel()}
+          error={errors?.[inputName]}
+          control={control}
+          placeholder={placeholder}
+          helperText={errors?.[inputName]?.message}
+          validation={{
+            required: 'Field is required',
+          }}
+          ref={register}
+        />
+      </Grid>
+    );
+  };
+
   const renderSelectorInput = (inputProps) => {
-    const { name: inputName, label, placeholder, max = 10 } = inputProps;
+    const { name: inputName, label, placeholder, values } = inputProps;
 
     const renderLabel = () => (
       <Grid {...styles.labelGridProps}>
@@ -134,20 +177,15 @@ const ToolForm = (props) => {
           name={inputName}
           label={renderLabel()}
           displayEmpty
-          color="purple"
-          bgColor="#ffffff"
           placeholder={placeholder}
           error={errors?.[inputName]}
-          menuList={new Array(max).fill()?.map((item, index) => ({
-            id: index + 1,
-            label: index + 1,
+          menuList={values.map((item) => ({
+            id: item.key,
+            label: item.label,
           }))}
           helperText={errors?.[inputName]?.message}
           control={control}
           ref={register}
-          extraInputProps={{
-            color: 'black',
-          }}
           validation={{
             required: 'Please select an option.',
           }}
@@ -172,7 +210,7 @@ const ToolForm = (props) => {
           color="purple"
           bgColor="#23252A"
           control={control}
-          getValues={getValues}
+          getValues={() => watchedValues}
           ref={register}
           showChips
           showCheckbox
@@ -186,6 +224,15 @@ const ToolForm = (props) => {
             },
           }}
         />
+      </Grid>
+    );
+  };
+
+  const renderTextContent = (inputProps) => {
+    const { content } = inputProps;
+    return (
+      <Grid key={content} {...styles.textContentGridProps} container justifyContent="center">
+        <Typography {...styles.textContentProps} align="center">{content}</Typography>
       </Grid>
     );
   };
@@ -207,13 +254,23 @@ const ToolForm = (props) => {
   );
 
   const renderInput = (inputProps) => {
-    switch (inputProps?.type) {
+    const { condition, type } = inputProps;
+
+    if (!evaluateCondition(condition, watchedValues, type === INPUT_TYPES.TEXT_CONTENT)) {
+      return null;
+    }
+
+    switch (type) {
       case INPUT_TYPES.TEXT:
         return renderTextInput(inputProps);
       case INPUT_TYPES.NUMBER:
-        return renderSelectorInput(inputProps);
+        return renderNumberInput(inputProps);
       case INPUT_TYPES.FILE:
         return renderFileUpload(inputProps);
+      case INPUT_TYPES.SELECT:
+        return renderSelectorInput(inputProps);
+      case INPUT_TYPES.TEXT_CONTENT:
+        return renderTextContent(inputProps);
       default:
         return null;
     }

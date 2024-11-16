@@ -34,6 +34,7 @@ const styles = {
     container: true,
     item: true,
     mobileSmall: 12,
+    marginBottom: 2,
     justifyContent: 'flex-start',
     alignItems: 'center',
   },

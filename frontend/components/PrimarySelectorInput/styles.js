@@ -109,8 +109,7 @@ const styles = {
   inputLabelProps: {
     shrink: true,
     sx: {
-      position: 'relative',
-      top: '8px',
+      top: '-14px',
       color: (theme) => `${theme.palette.Common.White['100p']} !important`,
       overflow: 'visible',
       transformOrigin: 'left',

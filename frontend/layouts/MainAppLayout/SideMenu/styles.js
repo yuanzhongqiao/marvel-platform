@@ -9,6 +9,8 @@ const styles = {
     justifyContent: 'space-between',
     alignItems: 'center',
     bgcolor: 'rgba(24, 26, 32, 0.37)',
+    borderRadius: '30px',
+    paddingLeft: '10px',
   },
   logoGridProps: {
     container: true,
