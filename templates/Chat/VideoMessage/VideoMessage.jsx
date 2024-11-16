@@ -23,7 +23,7 @@ const VideoMessage = (props) => {
   };
 
   return (
-    <Fade in direction="up">
+    <Fade in>
       <Grid id="message" {...styles.mainGridProps}>
         <Grid {...styles.messageWrapperProps(false, loading)}>
           <iframe

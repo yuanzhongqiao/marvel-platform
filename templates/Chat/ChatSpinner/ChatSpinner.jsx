@@ -18,7 +18,7 @@ const ChatSpinner = () => {
   }, []);
 
   return (
-    <Fade in={showSpinner} direction="up">
+    <Fade in={showSpinner}>
       <Grid id="message" {...styles.mainGridProps}>
         <Grid {...styles.messageWrapperProps(false)}>
           <Box {...styles.mainProps} />

@@ -8,7 +8,7 @@ const Options = (props) => {
   if (!show) return null;
 
   return (
-    <Fade in direction="up">
+    <Fade in>
       <Grid {...styles.optionsGridProps}>
         {options?.map(
           (option, index) =>

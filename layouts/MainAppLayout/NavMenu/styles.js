@@ -46,7 +46,6 @@ const styles = {
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems: 'center',
-    bgColor: '#24272F',
     paddingTop: '8px',
     paddingRight: '12px',
     paddingBottom: '8px',

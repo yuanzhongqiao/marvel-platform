@@ -15,7 +15,7 @@ const TextMessage = (props) => {
   const { isMyMessage, message } = props;
 
   return (
-    <Fade in direction="up">
+    <Fade in>
       <Grid id="message" {...styles.mainGridProps(isMyMessage)}>
         <Grid {...styles.messageWrapperProps(isMyMessage)}>
           {!isMyMessage && (

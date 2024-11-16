@@ -17,10 +17,8 @@ const fetchHistory = createAsyncThunk(
   'history/fetchHistory',
   async (userId) => {
     try {
-      console.log('fetchHistory HERE 1');
       // Get the Firestore instance
       const firestore = getFirestore();
-      console.log('Firestore instance obtained');
 
       // Create a query to fetch chat sessions for the given user ID
       const histQuery = query(
@@ -28,11 +26,9 @@ const fetchHistory = createAsyncThunk(
         where('user.id', '==', userId),
         orderBy('updatedAt', 'desc')
       );
-      console.log('Query created');
 
       // Execute the query and retrieve the chat sessions
       const querySnapshot = await getDocs(histQuery);
-      console.log('Query executed, documents retrieved:', querySnapshot.size);
 
       // Initialize an empty array to store the chat history
       const history = [];
@@ -63,8 +59,6 @@ const fetchHistory = createAsyncThunk(
         // Add the chat history object to the history array
         history.push(chatHistory);
       });
-
-      console.log('history', history);
 
       // Return the fetched chat history
       return history;

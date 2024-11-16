@@ -32,18 +32,16 @@ const styles = {
           overflow: 'auto',
         },
       },
-      p: {
-        code: { whiteSpace: 'pre-wrap !important', overflow: 'auto' },
-        'p:not(:last-child)': {
-          marginBottom: '16px',
-        },
-        'ul:not(:last-child)': {
-          marginBottom: '16px',
-        },
-        li: {
-          marginBottom: '16px',
-          p: { marginBottom: '0px !important' },
-        },
+      code: { whiteSpace: 'pre-wrap !important', overflow: 'auto' },
+      'p:not(:last-child)': {
+        marginBottom: '16px',
+      },
+      'ul:not(:last-child)': {
+        marginBottom: '16px',
+      },
+      li: {
+        marginBottom: '16px',
+        p: { marginBottom: '0px !important' },
       },
     },
   }),

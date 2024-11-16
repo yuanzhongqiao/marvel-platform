@@ -41,7 +41,7 @@ const ToolCard = (props) => {
   const renderLabel = () => {
     return (
       <Chip
-        icon={isPublished ? <AutoAwesome /> : ''}
+        icon={isPublished ? <AutoAwesome /> : null}
         {...styles.labelProps(isPublished)}
       />
     );

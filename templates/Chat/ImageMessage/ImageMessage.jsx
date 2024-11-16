@@ -6,7 +6,7 @@ import styles from './styles';
 const ImageMessage = (props) => {
   const { link } = props;
   return (
-    <Fade in direction="up">
+    <Fade in>
       <Grid id="message" {...styles.mainGridProps}>
         <Grid {...styles.messageWrapperProps(false)}>
           <img

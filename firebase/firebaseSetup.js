@@ -29,7 +29,7 @@ async function conditionallyConnectEmulators() {
         connectFunctionsEmulator(functions, EMULATOR_HOST, EMULATOR_PORTS.functions);
       }
     } catch (error) {
-      console.error("Error connecting to Firebase Emulators:", error);
+      console.info("Firebase Emulators not running, connecting to live environment instead.");
     }
   }
 }
