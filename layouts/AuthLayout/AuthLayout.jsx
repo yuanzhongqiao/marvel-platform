@@ -21,10 +21,11 @@ import { setLoading } from '@/redux/slices/authSlice';
  *
  * @param {Object} props - The props object
  * @param {ReactNode} props.children - The child components to be wrapped
+ * @param {boolean} props.isAuthScreen - Whether the layout is for the auth screen
  * @return {JSX.Element} The React component to be rendered
  */
 const AuthLayout = (props) => {
-  const { children, isAuthScreen } = props;
+  const { children, isAuthScreen = false } = props;
 
   const dispatch = useDispatch();
 

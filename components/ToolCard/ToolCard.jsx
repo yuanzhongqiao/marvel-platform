@@ -15,10 +15,6 @@ import styles from './styles';
 const ToolCard = (props) => {
   const { id, maskedToolUrl, backgroundImgURL, name, description } = props;
 
-  // Debugging: Log TOOLS_ID and id
-  console.log('TOOLS_ID:', TOOLS_ID);
-  console.log('id:', id);
-
   // Check if TOOLS_ID is an object and id is present
   const isPublished =
     TOOLS_ID &&

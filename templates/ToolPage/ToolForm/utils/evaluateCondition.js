@@ -11,7 +11,8 @@ const evaluateCondition = (condition, values, debug = false) => {
         if (debug) console.log('equals', fieldValue === value);
         return fieldValue === value;
       case 'notEmpty':
-        if (debug) console.log('notEmpty', fieldValue && fieldValue.trim() !== '');
+        if (debug)
+          console.log('notEmpty', fieldValue && fieldValue.trim() !== '');
         return fieldValue && fieldValue.trim() !== '';
       case 'greaterThan':
         if (debug) console.log('greaterThan', parseInt(fieldValue, 10) > value);
@@ -32,4 +33,4 @@ const evaluateCondition = (condition, values, debug = false) => {
   return false;
 };
 
-export default evaluateCondition; 
+export default evaluateCondition;

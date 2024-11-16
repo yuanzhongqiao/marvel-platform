@@ -19,8 +19,8 @@ The "Marvel" platform is structured into two main components: Firebase and AI. T
 ### Folder Structure
 ## Folder Structure Overview
 
-- **`/frontend`**:
-  Contains all the files related to the front-end application, including the NextJS app and associated resources.
+- **`/`**:
+  Standard firebase project structure, having frontend in the root and functions in the functions folder.
 
 - **`/functions`**:
   Houses the Firebase Functions, which are serverless functions responsible for backend processes such as AI chatbot and tools communicators
@@ -36,10 +36,10 @@ The "Marvel" platform is structured into two main components: Firebase and AI. T
   Security rules for Firestore database, defining read/write permissions.
 
 - **`package.json`** & **`package-lock.json`**:
-  Defines the project’s global dependencies
+  Defines the project’s frontend dependencies
 
 ## Prerequisites
-- Node.js (v14 or later)
+- Node.js (v18 or later)
 - Firebase CLI (v9.10.0 or later)
 - Google Firebase Account
 
@@ -47,7 +47,7 @@ The "Marvel" platform is structured into two main components: Firebase and AI. T
 To set up the project, follow these steps:
 
 ## Local Development
-1. Clone the repository: `git clone https://github.com/radicalxdev/marvel-platform`
+1. Clone the repository: `git clone https://github.com/marvelai-org/marvel-platform`
 2. Create your firebase project on google firebase console
 3. Create a firestore database instance
 4. Get firebase config from firebase project settings in firebase console and save it to .env (create in root of this project, see sample.env for refrence)
@@ -60,22 +60,23 @@ To set up the project, follow these steps:
 3. Run for local testing: `firebase serve --only functions`
 
 ### Frontend
-1. Navigate to front-end project directory: `cd frontend`
+1. Navigate to front-end project directory: `cd ../` (root of project)
 2. Install dependencies: `npm install`
 3. Run for local testing: `npm run dev`
+This will start the frontend on localhost:3000 (default port)
 
 ### Local Emulator (Optional)
 #### Setup
 1. Open the terminal and to start the emulators, run the following command: `npm run emulators`
-2. Open another terminal simultaneously and start the frontend project, run the following command: `npm run frontend:dev`
+2. Open another terminal simultaneously and start the frontend project, run the following command: `npm run dev`
 
 ## Cloud Deployment
-1. Clone the repository: `git clone https://github.com/radicalxdev/marvel-platform`
+1. Clone the repository: `git clone https://github.com/marvelai-org/marvel-platform`
 2. Navigate to back-end project directory: `cd functions`
 3. Install dependencies: `npm install`
-4. Navigate to front-end directory: `cd ../frontend`
+4. Navigate to front-end directory: `cd ../` (root of project)
 5. Install dependencies: `npm install`
-5. Navigate to the root directory and run deploy: `cd .. && npm run deploy`
+5. Navigate to the root directory and run deploy: `npm run deploy`
 
 ## Contributing
 

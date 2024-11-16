@@ -1,23 +1,71 @@
 {
   "name": "marvel-ai",
-  "version": "1.0.0",
-  "description": "This is an AI teaching assistant project that combines a front-end and back-end application. The front-end is located in the `platform-frontend` directory, and the back-end is located in the `platform-backend` directory.",
-  "main": "index.js",
-  "keywords": [],
-  "author": "Radical",
-  "license": "ISC",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "build:next": "cd frontend && npm run build && npm run export",
-    "serve:frontend": "firebase serve --only hosting",
+    "dev": "next dev",
+    "build": "npm i && next build",
+    "start": "next start",
+    "lint": "eslint --cache --ext .jsx --ext .js .",
+    "lint:fix": "eslint --ext .jsx --ext .js ./ --fix",
+    "format": "eslint --fix",
+    "export": "next export",
     "deploy": "npm run build:next && firebase deploy",
     "serve": "npm run build:next && firebase serve",
-    "emulators": "firebase emulators:start",
-    "backend:docs": "cd functions && npm run docs",
-    "frontend:dev": "cd frontend && npm run dev",
-    "lint": "cd frontend && npm run lint && cd ../functions && npm run lint",
-    "lint:fix": "cd frontend && npm run lint:fix && cd ../functions && npm run lint:fix"
+    "emulators": "firebase emulators:start"
+  },
+  "lint-staged": {
+    "*.{js,jsx,ts,tsx}": [
+      "npm run lint",
+      "npm run format",
+      "git add"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "@mui/icons-material": "^5.16.5",
+    "@mui/material": "^5.13.0",
+    "@reduxjs/toolkit": "^1.9.5",
+    "axios": "^1.4.0",
+    "dotenv": "^16.4.5",
+    "firebase": "^9.22.0",
+    "firebase-admin": "^11.8.0",
+    "moment": "^2.29.4",
+    "next": "12.3.0",
+    "next-transpile-modules": "^10.0.1",
+    "nextjs-google-analytics": "^2.3.3",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-hook-form": "^7.43.9",
+    "react-hook-form-mui": "^6.1.0",
+    "react-markdown": "^9.0.0",
+    "react-redux": "^8.0.7",
+    "react-syntax-highlighter": "^15.5.0",
+    "remark": "^15.0.1",
+    "remark-emoji": "^4.0.1",
+    "remark-gfm": "^4.0.0",
+    "remark-html": "^16.0.1",
+    "remark-parse": "^11.0.0",
+    "unified": "^11.0.2"
   },
   "devDependencies": {
-    "firebase-tools": "^9.10.0"
+    "@svgr/webpack": "^8.0.1",
+    "eslint": "8.40.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-next": "12.3.0",
+    "eslint-config-prettier": "^8.8.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-simple-import-sort": "^12.1.0",
+    "husky": "^9.0.11",
+    "lint-staged": "^13.2.2",
+    "prettier": "^2.8.8"
   }
 }

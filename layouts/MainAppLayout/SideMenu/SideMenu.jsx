@@ -14,6 +14,8 @@ import styles from './styles';
 
 import { auth } from '@/redux/store';
 
+import UserAvatar from '../../../components/UserAvatar';
+
 /**
  * Renders the Side Menu.
  *
@@ -42,16 +44,7 @@ const SideMenu = ({ user }) => {
   };
 
   const renderProfileImage = () => {
-    return (
-      <Grid {...styles.profileImageGridProps}>
-        <Grid {...styles.logoImageGridProps}>
-          <KAIAvatar />
-        </Grid>
-        <Grid {...styles.titleGridProps}>
-          <Typography {...styles.profileNameProps}>{user?.fullName}</Typography>
-        </Grid>
-      </Grid>
-    );
+    return <UserAvatar fullName={user?.fullName} />;
   };
 
   const renderLogout = () => {

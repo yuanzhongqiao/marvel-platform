@@ -1,6 +1,7 @@
 import { useContext } from 'react';
+
 import { Help } from '@mui/icons-material';
-import { Grid, Tooltip, Typography, useTheme, TextField } from '@mui/material';
+import { Grid, TextField, Tooltip, Typography, useTheme } from '@mui/material';
 import { FormContainer, useForm, useWatch } from 'react-hook-form-mui';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -14,6 +15,8 @@ import ALERT_COLORS from '@/constants/notification';
 
 import styles from './styles';
 
+import evaluateCondition from './utils/evaluateCondition';
+
 import { AuthContext } from '@/providers/GlobalProvider';
 import {
   setCommunicatorLoading,
@@ -24,7 +27,6 @@ import {
 import { firestore } from '@/redux/store';
 import { fetchToolHistory } from '@/redux/thunks/toolHistory';
 import submitPrompt from '@/services/tools/submitPrompt';
-import evaluateCondition from './utils/evaluateCondition';
 
 const ToolForm = (props) => {
   const { id, inputs } = props;
@@ -139,7 +141,7 @@ const ToolForm = (props) => {
         )}
       </Grid>
     );
-    
+
     return (
       <Grid key={inputName} {...styles.inputGridProps}>
         <PrimaryTextFieldInput
@@ -231,8 +233,15 @@ const ToolForm = (props) => {
   const renderTextContent = (inputProps) => {
     const { content } = inputProps;
     return (
-      <Grid key={content} {...styles.textContentGridProps} container justifyContent="center">
-        <Typography {...styles.textContentProps} align="center">{content}</Typography>
+      <Grid
+        key={content}
+        {...styles.textContentGridProps}
+        container
+        justifyContent="center"
+      >
+        <Typography {...styles.textContentProps} align="center">
+          {content}
+        </Typography>
       </Grid>
     );
   };
@@ -256,7 +265,13 @@ const ToolForm = (props) => {
   const renderInput = (inputProps) => {
     const { condition, type } = inputProps;
 
-    if (!evaluateCondition(condition, watchedValues, type === INPUT_TYPES.TEXT_CONTENT)) {
+    if (
+      !evaluateCondition(
+        condition,
+        watchedValues,
+        type === INPUT_TYPES.TEXT_CONTENT
+      )
+    ) {
       return null;
     }
 

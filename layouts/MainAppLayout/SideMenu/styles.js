@@ -10,7 +10,7 @@ const styles = {
     alignItems: 'center',
     bgcolor: 'rgba(24, 26, 32, 0.37)',
     borderRadius: '30px',
-    paddingLeft: '10px',
+    paddingLeft: '8px',
   },
   logoGridProps: {
     container: true,
