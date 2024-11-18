@@ -47,8 +47,9 @@ const PrimaryFileUpload = forwardRef((props, ref) => {
   const fileInputRef = useRef();
 
   const defaultValues = getValues(name) || [];
+  console.log('====defaultValues', defaultValues);
 
-  const [files, setFiles] = useState(defaultValues);
+  const [files, setFiles] = useState([]);
 
   const handleCarouselFiles = (e) => {
     const selectedFiles = e.target.files;

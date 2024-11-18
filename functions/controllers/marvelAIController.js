@@ -14,7 +14,8 @@ const { v4: uuidv4 } = require('uuid');
 const busboy = require('busboy');
 const app = express();
 
-const DEBUG = process.env.DEBUG;
+// const DEBUG = process.env.DEBUG;
+
 
 /**
  * Simulates communication with the Marvel AI endpoint.
@@ -191,6 +192,7 @@ const chat = onCall(async (props) => {
  * @throws {HttpsError} Throws an error if processing fails or data is invalid.
  */
 app.post('/api/tool/', (req, res) => {
+  console.log('api tool request received');
   const bb = busboy({ headers: req.headers });
 
   if (req.method !== 'POST') {
@@ -214,7 +216,9 @@ app.post('/api/tool/', (req, res) => {
     file.pipe(fileWriteStream);
 
     const uploadPromise = new Promise((resolve, reject) => {
+      console.log('here 2');
       fileWriteStream.on('finish', async () => {
+        console.log('here 3');
         // Make the file publicly readable
         await storage.bucket(bucketName).file(filePath).makePublic();
 
@@ -234,10 +238,12 @@ app.post('/api/tool/', (req, res) => {
   });
 
   bb.on('field', (name, value) => {
+    console.log('here 4');
     data[name] = value;
   });
 
   bb.on('finish', async () => {
+    console.log('here 5');
     try {
       DEBUG && logger.log('data:', JSON.parse(data?.data));
 
@@ -257,6 +263,17 @@ app.post('/api/tool/', (req, res) => {
           ? [...inputs, { name: 'files', value: results }]
           : inputs;
 
+      console.log('here 6', JSON.stringify({
+        data: {
+          ...otherData,
+          toolData: {
+            ...otherToolData,
+            tool_id: otherToolData.toolId,
+            inputs: modifiedInputs,
+          },
+        },
+      }));
+      
       const response = await marvelCommunicator({
         data: {
           ...otherData,

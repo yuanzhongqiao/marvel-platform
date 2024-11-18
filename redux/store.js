@@ -20,6 +20,10 @@ const store = configureStore({
     onboarding: onboardingReducer,
     history: historyReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 export { auth, firestore, functions };

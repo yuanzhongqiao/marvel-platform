@@ -11,20 +11,9 @@
     "format": "eslint --fix",
     "export": "next export",
     "deploy": "npm run build:next && firebase deploy",
+    "deploy:frontend": "npm run build && firebase deploy --only hosting",
     "serve": "npm run build:next && firebase serve",
     "emulators": "firebase emulators:start"
-  },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx}": [
-      "npm run lint",
-      "npm run format",
-      "git add"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "dependencies": {
     "@emotion/react": "^11.11.0",
