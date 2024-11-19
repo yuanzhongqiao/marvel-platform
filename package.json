@@ -10,8 +10,8 @@
     "lint:fix": "eslint --ext .jsx --ext .js ./ --fix",
     "format": "eslint --fix",
     "export": "next export",
-    "deploy": "npm run build:next && firebase deploy",
-    "deploy:frontend": "npm run build && firebase deploy --only hosting",
+    "deploy": "npm run build:next && npm run export && firebase deploy",
+    "deploy:frontend": "npm run build && npm run export && firebase deploy --only hosting",
     "serve": "npm run build:next && firebase serve",
     "emulators": "firebase emulators:start"
   },

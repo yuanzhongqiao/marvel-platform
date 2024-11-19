@@ -107,6 +107,58 @@ const styles = {
     fontSize: { laptop: '24px', desktop: '26px' },
     fontFamily: 'Satoshi Bold',
   }),
+  inputGridProps: {
+    container: true,
+  },
+  fieldContainerProps: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+  },
+  inputLabelProps: {
+    shrink: true,
+    style: {
+      fontSize: '16px',
+      fontWeight: 'bold',
+    },
+  },
+  inputProps: {
+    style: {
+      borderRadius: '4px',
+      borderColor: '#ccc',
+      background: 'red',
+    },
+  },
+  uploadButtonProps: {
+    variant: 'contained',
+    component: 'span',
+    style: {
+      whiteSpace: 'nowrap',
+      height: '45px',
+    },
+  },
+  orLabelProps: {
+    style: {
+      padding: '0 10px',
+    },
+  },
+  outlinedButtonProps: {
+    color: 'purple',
+    extraProps: {
+      padding: '2px',
+      height: { laptop: '40px', desktop: '42px', desktopMedium: '45px' },
+      borderRadius: '8px',
+    },
+    extraButtonProps: {
+      fontFamily: 'Satoshi Bold',
+      fontSize: { laptop: '14px', desktop: '15px', desktopMedium: '16px' },
+      px: { laptop: 1, desktop: 2, desktopMedium: 3 },
+      color: '#AC92FF !important',
+      borderRadius: '6px',
+    },
+  },
 };
 
 export default styles;

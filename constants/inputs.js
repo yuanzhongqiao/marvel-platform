@@ -10,6 +10,7 @@ const INPUT_TYPES = {
   CHECKBOX: 'checkbox',
   SELECT: 'select',
   TEXT_CONTENT: 'text_content',
+  FILE_TYPE_SELECTOR: 'file_type_selector',
 };
 
 export { INPUT_TYPES };

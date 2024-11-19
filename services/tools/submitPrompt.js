@@ -1,27 +1,22 @@
 import axios from 'axios';
 
-const submitPrompt = async (payload, files) => {
+const submitPrompt = async (payload) => {
   try {
-    const formData = new FormData();
-    formData.append('data', JSON.stringify(payload));
+    console.log('Sending request to endpoint with payload:', payload);
+    const url = `${process.env.NEXT_PUBLIC_MARVEL_ENDPOINT}submit-tool`;
 
-    if (!!files && files?.length > 0) {
-      files.forEach((file, index) => {
-        formData.append(`file${index}`, file);
-      });
-    }
-
-    const url = process.env.NEXT_PUBLIC_MARVEL_ENDPOINT;
-
-    const response = await axios.post(url, formData, {
+    const response = await axios.post(url, payload, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': 'application/json',
+        'API-Key': 'dev',
       },
     });
 
+    console.log('Response from endpoint:', response.data);
     return response.data?.data;
   } catch (err) {
     const { response } = err;
+    console.error('Error sending request:', err);
     throw new Error(
       response?.data?.message || `Error: could not send prompt, ${err}`
     );

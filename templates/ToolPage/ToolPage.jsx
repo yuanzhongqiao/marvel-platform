@@ -79,6 +79,7 @@ const ToolPage = (props) => {
   };
 
   const ToolOutputComponent = RESPONSE_OUTPUTS[id];
+  console.log('ToolOutputComponent here:', id, response, formOpen);
 
   return (
     <Grid {...styles.mainGridProps}>

@@ -37,6 +37,7 @@ const styles = {
     display: 'flex',
     width: 'auto',
     height: '19px',
+    whiteSpace: 'nowrap',
   },
   userAvatarCircle: { 
     width: '45px', 

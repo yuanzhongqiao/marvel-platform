@@ -1,9 +1,8 @@
 import { forwardRef, useRef, useState } from 'react';
+import { useFormContext, MultiSelectElement } from 'react-hook-form-mui';
 
 import { FileUploadOutlined } from '@mui/icons-material';
 import { Chip, Grid, IconButton, Typography } from '@mui/material';
-
-import { MultiSelectElement } from 'react-hook-form-mui';
 
 import styles from './styles';
 
@@ -29,14 +28,13 @@ const PrimaryFileUpload = forwardRef((props, ref) => {
     id,
     name,
     placeholder,
-    label,
+    title,
     color,
     bgColor,
     control,
     showCheckbox,
     showChips,
     setValue,
-    getValues,
     multiple,
     error,
     preserveOrder,
@@ -44,6 +42,7 @@ const PrimaryFileUpload = forwardRef((props, ref) => {
     ...otherProps
   } = props;
 
+  const { getValues } = useFormContext();
   const fileInputRef = useRef();
 
   const defaultValues = getValues(name) || [];
@@ -68,13 +67,13 @@ const PrimaryFileUpload = forwardRef((props, ref) => {
   const handleOnDelete = (fileIndex) => {
     const newFiles = files?.filter((file, index) => index !== fileIndex);
     setFiles(newFiles);
-    setValue(name, files);
+    setValue(name, newFiles);
   };
 
   const renderLabel = () => {
     return (
       <Grid id={`${id}-label`} {...styles.labelGridProps}>
-        <Typography {...styles.labelProps(error)}>{label}</Typography>
+        <Typography {...styles.labelProps(error)}>{title}</Typography>
       </Grid>
     );
   };
@@ -121,17 +120,6 @@ const PrimaryFileUpload = forwardRef((props, ref) => {
     );
   };
 
-  const SelectMultiMenuConfig = {
-    id,
-    name: id,
-    control,
-    displayEmpty,
-    showCheckbox,
-    showChips,
-    preserveOrder,
-    ...styles.selectInputProps(color, bgColor),
-  };
-
   return (
     <>
       {renderLabel()}
@@ -144,11 +132,16 @@ const PrimaryFileUpload = forwardRef((props, ref) => {
         labelId={`${id}-label`}
         endAdornment={renderEndIcon()}
         multiple
+
+        control={control}
+        displayEmpty={true}
+        showCheckbox={false}
+        showChips={true}
+        preserveOrder={false}
+        {...styles.selectInputProps(color, bgColor)}
         formControlProps={{
           disabled: true,
         }}
-        {...SelectMultiMenuConfig}
-        {...otherProps}
       />
       <input
         type="file"
