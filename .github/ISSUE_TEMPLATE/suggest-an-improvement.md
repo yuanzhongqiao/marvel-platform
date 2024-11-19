@@ -4,6 +4,7 @@ about: suggesting improvements to a feature or technical improvements
 title: ''
 labels: enhancement
 assignees: ''
+projects: marvelai-org/8
 
 ---
 

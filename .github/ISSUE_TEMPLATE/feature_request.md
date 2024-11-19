@@ -4,6 +4,7 @@ about: Suggest an idea for this project
 title: "[Feature Request] - Ability for users to [user action]"
 labels: type:new-feature
 assignees: ''
+projects: marvelai-org/8
 
 ---
 
