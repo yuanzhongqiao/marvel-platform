@@ -9,7 +9,7 @@ const Welcome = ({ onNext }) => {
 
   return (
     <Grid {...styles.mainGrid}>
-      <Typography {...styles.titleProps}>Welcome to Kai 👋</Typography>
+      <Typography {...styles.titleProps}>Welcome to Marvel AI 👋</Typography>
       <Typography {...styles.descriptionProps}>
         Let&lsquo;s get started with your onboarding process.
       </Typography>

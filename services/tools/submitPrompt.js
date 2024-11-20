@@ -4,7 +4,6 @@ import { collection, addDoc, Timestamp } from 'firebase/firestore';
 
 const submitPrompt = async (payload) => {
   try {
-    console.log('Sending request to endpoint with payload:', payload);
     const url = `${process.env.NEXT_PUBLIC_MARVEL_ENDPOINT}submit-tool`;
 
     const response = await axios.post(url, payload, {
@@ -14,7 +13,6 @@ const submitPrompt = async (payload) => {
       },
     });
 
-    console.log('Response from endpoint:', response.data);
 
     // Safely extract the topic from inputs
     const topicInput = payload.tool_data.inputs.find((input) => input.name === 'topic');

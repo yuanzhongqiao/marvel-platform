@@ -36,8 +36,16 @@ export const updateUserData = createAsyncThunk(
   'onboarding/submitOnboardingData',
   async ({ firestore, data }, { getState, rejectWithValue }) => {
     try {
-      const { user } = getState();
-      const userId = user?.data?.id;
+      const { auth } = getState();
+      const userId = auth?.data?.uid;
+
+      if (!userId) {
+        throw new Error('User ID is undefined');
+      }
+
+      if (!data || typeof data !== 'object') {
+        throw new Error('Data is undefined or not an object');
+      }
 
       const userDocRef = doc(firestore, 'users', userId);
 
@@ -45,6 +53,7 @@ export const updateUserData = createAsyncThunk(
 
       return data;
     } catch (error) {
+      console.log('error in updateUserData', error);
       return rejectWithValue(error.message);
     }
   }

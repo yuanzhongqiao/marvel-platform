@@ -24,7 +24,6 @@ const FileTypeSelectorInput = ({ name, label, fileTypes, tooltip, error, helperT
 
   const renderInputField = () => {
     const urlOnlyTypes = ['GOOGLE_DOCS', 'GOOGLE_SHEETS', 'GOOGLE_SLIDES', 'GOOGLE_DRIVE', 'URL', 'youtube_url'];
-    console.log('selectedFileType:', selectedFileType[name]);
 
     if (urlOnlyTypes.includes(selectedFileType[name])) {
       return (

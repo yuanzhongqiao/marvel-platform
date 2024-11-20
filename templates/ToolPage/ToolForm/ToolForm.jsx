@@ -136,8 +136,6 @@ const ToolForm = (props) => {
         dispatch
       );
 
-      console.log("Response received:", response);
-
       dispatch(setResponse(response));
       dispatch(setFormOpen(false));
       dispatch(setCommunicatorLoading(false));

@@ -21,9 +21,9 @@ import { updateUserData } from '@/redux/thunks/user';
 const onboardingComponents = {
   0: Welcome,
   1: ProfileSetupForm,
-  2: SystemConfigs,
-  3: FinalSteps,
-  4: Complete,
+  // 2: SystemConfigs,
+  2: FinalSteps,
+  3: Complete,
 };
 
 /** .
@@ -67,7 +67,6 @@ const OnboardingPage = ({ onboardingData }) => {
         await uploadBytes(storageRef, file);
         downloadURL = await getDownloadURL(storageRef);
       }
-
       dispatch(
         updateUserData({
           firestore,

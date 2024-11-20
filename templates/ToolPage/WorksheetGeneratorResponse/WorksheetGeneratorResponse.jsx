@@ -18,7 +18,6 @@ const WorksheetGeneratorResponse = () => {
   };
 
   const renderQuestions = () => {
-    console.log("renderQuestions response", response);
     return (
       <Grid {...styles.questionsGridProps}>
         Hello World !
