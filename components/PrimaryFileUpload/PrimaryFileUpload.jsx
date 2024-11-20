@@ -46,7 +46,6 @@ const PrimaryFileUpload = forwardRef((props, ref) => {
   const fileInputRef = useRef();
 
   const defaultValues = getValues(name) || [];
-  console.log('====defaultValues', defaultValues);
 
   const [files, setFiles] = useState([]);
 

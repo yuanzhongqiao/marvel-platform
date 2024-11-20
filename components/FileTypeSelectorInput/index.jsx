@@ -11,8 +11,6 @@ import styles from './styles';
 const FileTypeSelectorInput = ({ name, label, fileTypes, tooltip, error, helperText, setValue, getValues, ref, control }) => {
   const selectedFileType = useWatch({ control });
 
-  console.log('FileTypeSelectorInput name:', name);
-
   const renderLabel = (text) => (
     <Grid {...styles.labelGridProps}>
       <Typography {...styles.labelProps(error)}>{text}</Typography>
@@ -25,7 +23,7 @@ const FileTypeSelectorInput = ({ name, label, fileTypes, tooltip, error, helperT
   );
 
   const renderInputField = () => {
-    const urlOnlyTypes = ['GOOGLE_DOCS', 'GOOGLE_SHEETS', 'GOOGLE_SLIDES', 'GOOGLE_DRIVE', 'URL'];
+    const urlOnlyTypes = ['GOOGLE_DOCS', 'GOOGLE_SHEETS', 'GOOGLE_SLIDES', 'GOOGLE_DRIVE', 'URL', 'youtube_url'];
     console.log('selectedFileType:', selectedFileType[name]);
 
     if (urlOnlyTypes.includes(selectedFileType[name])) {
@@ -90,12 +88,12 @@ const FileTypeSelectorInput = ({ name, label, fileTypes, tooltip, error, helperT
     <Grid container direction="column" spacing={2}>
       <Grid item {...styles.inputGridProps}>
         <PrimarySelectorInput
-          name={`${name}_type`}
-          label={renderLabel(label)}
+          name={`${name}`}
+          label={renderLabel(`Select ${label} Type`)}
           control={control}
           menuList={fileTypes.map((type) => ({
             id: type.key,
-            label: type.label,
+            label: type.label
           }))}
         />
       </Grid>

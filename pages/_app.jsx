@@ -1,4 +1,6 @@
 import { ThemeProvider } from '@emotion/react';
+import { LocalizationProvider } from '@mui/x-date-pickers';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 
 import { useRouter } from 'next/router';
 import { GoogleAnalytics } from 'nextjs-google-analytics';
@@ -16,13 +18,15 @@ const App = ({ Component, pageProps }) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <GlobalProvider>
-        <GoogleAnalytics
-          trackPageViews
-          gaMeasurementId={firebaseConfig.measurementId}
-        />
-        {getLayout(<Component {...pageProps} />, query)}
-      </GlobalProvider>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <GlobalProvider>
+          <GoogleAnalytics
+            trackPageViews
+            gaMeasurementId={firebaseConfig.measurementId}
+          />
+          {getLayout(<Component {...pageProps} />, query)}
+        </GlobalProvider>
+      </LocalizationProvider>
     </ThemeProvider>
   );
 };

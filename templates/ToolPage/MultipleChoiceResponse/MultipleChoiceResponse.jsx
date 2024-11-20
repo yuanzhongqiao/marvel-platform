@@ -6,7 +6,6 @@ import styles from './styles';
 
 const MultipleChoiceResponse = () => {
   const { response } = useSelector((state) => state.tools);
-  console.log('response here:', response);
 
   const hasTitle = false;
 

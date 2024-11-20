@@ -1,34 +1,40 @@
-import { useContext } from 'react';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { useContext } from "react";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-import { Help } from '@mui/icons-material';
-import { Grid, Tooltip, Typography, useTheme } from '@mui/material';
-import { FormContainer, useForm, useWatch, useFormContext } from 'react-hook-form-mui';
-import { useDispatch, useSelector } from 'react-redux';
+import { Help } from "@mui/icons-material";
+import { Grid, Tooltip, Typography, useTheme } from "@mui/material";
+import {
+  FormContainer,
+  useForm,
+  useWatch,
+  useFormContext,
+} from "react-hook-form-mui";
+import { useDispatch, useSelector } from "react-redux";
 
-import GradientOutlinedButton from '@/components/GradientOutlinedButton';
-import PrimaryFileUpload from '@/components/PrimaryFileUpload';
-import PrimarySelectorInput from '@/components/PrimarySelectorInput';
-import PrimaryTextFieldInput from '@/components/PrimaryTextFieldInput';
-import FileTypeSelectorInput from '@/components/FileTypeSelectorInput';
+import GradientOutlinedButton from "@/components/GradientOutlinedButton";
+import PrimaryFileUpload from "@/components/PrimaryFileUpload";
+import PrimarySelectorInput from "@/components/PrimarySelectorInput";
+import PrimaryTextFieldInput from "@/components/PrimaryTextFieldInput";
+import FileTypeSelectorInput from "@/components/FileTypeSelectorInput";
+import PrimaryDatePickerInput from "@/components/PrimaryDatePickerInput";
 
-import { INPUT_TYPES } from '@/constants/inputs';
-import ALERT_COLORS from '@/constants/notification';
+import { INPUT_TYPES } from "@/constants/inputs";
+import ALERT_COLORS from "@/constants/notification";
 
-import styles from './styles';
+import styles from "./styles";
 
-import evaluateCondition from './utils/evaluateCondition';
+import evaluateCondition from "./utils/evaluateCondition";
 
-import { AuthContext } from '@/providers/GlobalProvider';
+import { AuthContext } from "@/providers/GlobalProvider";
 import {
   setCommunicatorLoading,
   setFormOpen,
   setPrompt,
   setResponse,
-} from '@/redux/slices/toolsSlice';
-import { firestore } from '@/redux/store';
-import { fetchToolHistory } from '@/redux/thunks/toolHistory';
-import submitPrompt from '@/services/tools/submitPrompt';
+} from "@/redux/slices/toolsSlice";
+import { firestore } from "@/redux/store";
+import { fetchToolHistory } from "@/redux/thunks/toolHistory";
+import submitPrompt from "@/services/tools/submitPrompt";
 
 const ToolForm = (props) => {
   const { id, inputs } = props;
@@ -53,39 +59,56 @@ const ToolForm = (props) => {
 
   const handleSubmitMultiForm = async (values) => {
     try {
-      console.log('Form submission started with values:', values);
+      console.log("Form submission started with values:", values);
       dispatch(setResponse(null));
       dispatch(setCommunicatorLoading(true));
 
       let updateData = Object.entries(values).map(([name, value]) => {
         // Convert numeric strings to integers
-        if (!isNaN(value) && value.trim() !== '') {
-          value = parseInt(value, 10);
+        if (
+          typeof value === "string" &&
+          !isNaN(value.trim()) &&
+          value.trim() !== ""
+        ) {
+          value = parseInt(value.trim(), 10);
         }
         return { name, value };
       });
 
       let fileUrls = [];
-      const fileInputs = inputs.filter((input) => input.type === INPUT_TYPES.FILE || input.type === INPUT_TYPES.FILE_TYPE_SELECTOR);
+      const fileInputs = inputs.filter(
+        (input) =>
+          input.type === INPUT_TYPES.FILE ||
+          input.type === INPUT_TYPES.FILE_TYPE_SELECTOR
+      );
 
       for (const input of fileInputs) {
-        const fileKey = input.type === INPUT_TYPES.FILE_TYPE_SELECTOR ? `${input.name}_file` : input.name;
+        // omit previous values
+        updateData = updateData.filter(
+          (item) =>
+            item.name !== `${input.name}_file` && item.name !== `${input.name}_url` && item.name !== input.name
+        );
+        updateData.push({
+          name: `${input.name}_type`,
+          value: values[`${input.name}`].toLowerCase(),
+        });
+
+        const fileKey =
+          input.type === INPUT_TYPES.FILE_TYPE_SELECTOR
+            ? `${input.name}_file`
+            : input.name;
         const files = watchedValues[fileKey];
-        console.log('files here 1:', files);
         if (files && files.length > 0) {
           const storage = getStorage();
           const uploadPromises = files.map(async (file) => {
             const storageRef = ref(storage, `uploads/${file.name}`);
-            console.log(`Uploading file: ${file.name}`);
             await uploadBytes(storageRef, file);
             const url = await getDownloadURL(storageRef);
-            console.log(`File uploaded: ${file.name}, URL: ${url}`);
             return url;
           });
           const urls = await Promise.all(uploadPromises);
 
           if (input.type === INPUT_TYPES.FILE_TYPE_SELECTOR) {
-            updateData = updateData.filter(item => item.name !== `${input.name}_file`);
             fileUrls.push({ name: `${input.name}_url`, value: urls[0] });
           } else {
             fileUrls.push({ name: input.name, value: urls[0] });
@@ -93,22 +116,17 @@ const ToolForm = (props) => {
         }
       }
 
-      console.log('File inputs:', fileUrls);
-
       // Remove any existing file inputs from updateData to avoid duplicates
-      const finalData = [
-        ...updateData,
-        ...fileUrls,
-      ];
+      const finalData = [...updateData, ...fileUrls];
 
-      console.log('Files uploaded, sending request to endpoint with data:', {
+      console.log("Files uploaded, sending request to endpoint with data:", {
         toolData: { toolId: id, inputs: finalData },
       });
 
       const response = await submitPrompt(
         {
           tool_data: { tool_id: id, inputs: finalData },
-          type: 'tool',
+          type: "tool",
           user: {
             id: userData?.id,
             fullName: userData?.fullName,
@@ -118,18 +136,18 @@ const ToolForm = (props) => {
         dispatch
       );
 
-      console.log('Response received:', response);
+      console.log("Response received:", response);
 
       dispatch(setResponse(response));
       dispatch(setFormOpen(false));
       dispatch(setCommunicatorLoading(false));
       dispatch(fetchToolHistory({ firestore }));
     } catch (error) {
-      console.error('Error during form submission:', error);
+      console.error("Error during form submission:", error);
       dispatch(setCommunicatorLoading(false));
       handleOpenSnackBar(
         ALERT_COLORS.ERROR,
-        error?.message || 'Couldn\u0027t send prompt'
+        error?.message || "Couldn\u0027t send prompt"
       );
     }
   };
@@ -160,7 +178,7 @@ const ToolForm = (props) => {
           placeholder={placeholder}
           helperText={errors?.[inputName]?.message}
           validation={{
-            required: 'Field is required',
+            required: "Field is required",
           }}
           ref={register}
         />
@@ -194,10 +212,10 @@ const ToolForm = (props) => {
           placeholder={placeholder}
           helperText={errors?.[inputName]?.message}
           extraInputProps={{
-            type: 'number',
+            type: "number",
           }}
           validation={{
-            required: 'Field is required',
+            required: "Field is required",
           }}
           ref={register}
         />
@@ -233,7 +251,7 @@ const ToolForm = (props) => {
           control={control}
           ref={register}
           validation={{
-            required: 'Please select an option.',
+            required: "Please select an option.",
           }}
         />
       </Grid>
@@ -263,10 +281,10 @@ const ToolForm = (props) => {
           displayEmpty
           setValue={setValue}
           validation={{
-            required: 'Please upload a file.',
+            required: "Please upload a file.",
             validate: {
               lessThanThree: (v) =>
-                parseInt(v?.length, 10) < 10 || 'Should be less than 3 files',
+                parseInt(v?.length, 10) < 10 || "Should be less than 3 files",
             },
           }}
         />
@@ -309,13 +327,35 @@ const ToolForm = (props) => {
     );
   };
 
+  const renderDateInput = (inputProps) => {
+    const { name: inputName, label, placeholder } = inputProps;
+
+    return (
+      <Grid key={inputName} {...styles.inputGridProps} style={{paddingTop: '0px', marginBottom: '20px'}}>
+        <PrimaryDatePickerInput
+          id={inputName}
+          name={inputName}
+          title={label}
+          placeholder={placeholder}
+          error={errors?.[inputName]}
+          helperText={errors?.[inputName]?.message}
+          control={control}
+          setValue={setValue}
+          validation={{
+            required: "Please select a date.",
+          }}
+        />
+      </Grid>
+    );
+  };
+
   const renderActionButtons = () => (
     <Grid mt={4} {...styles.actionButtonGridProps}>
       <GradientOutlinedButton
         id="submitButton"
-        bgcolor={theme.palette.Common.White['100p']}
+        bgcolor={theme.palette.Common.White["100p"]}
         text="Generate"
-        textColor={theme.palette.Common.White['100p']}
+        textColor={theme.palette.Common.White["100p"]}
         loading={communicatorLoading}
         onHoverTextColor={theme.palette.Background.purple}
         type="submit"
@@ -351,6 +391,8 @@ const ToolForm = (props) => {
         return renderTextContent(inputProps);
       case INPUT_TYPES.FILE_TYPE_SELECTOR:
         return renderFileTypeSelectorInput(inputProps);
+      case INPUT_TYPES.DATE:
+        return renderDateInput(inputProps);
       default:
         return null;
     }
@@ -359,7 +401,7 @@ const ToolForm = (props) => {
   return (
     <FormContainer
       FormProps={{
-        id: 'tool-form',
+        id: "tool-form",
       }}
       onSuccess={handleSubmit(handleSubmitMultiForm)}
     >

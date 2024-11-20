@@ -17,6 +17,8 @@ import { TOOLS_ID } from '@/constants/tools';
 
 import FlashCardList from './FlashCardList';
 import MultipleChoiceResponse from './MultipleChoiceResponse';
+import SyllabusGeneratorResponse from './SyllabusGeneratorResponse';
+import WorksheetGeneratorResponse from './WorksheetGeneratorResponse';
 import styles from './styles';
 import ToolForm from './ToolForm';
 
@@ -26,6 +28,8 @@ import theme from '@/theme/theme';
 const RESPONSE_OUTPUTS = {
   [TOOLS_ID.GEMINI_DYNAMO]: FlashCardList,
   [TOOLS_ID.GEMINI_QUIZIFY]: MultipleChoiceResponse,
+  [TOOLS_ID.WORKSHEET_GENERATOR]: WorksheetGeneratorResponse,
+  [TOOLS_ID.SYLLABUS_GENERATOR]: SyllabusGeneratorResponse,
 };
 
 const ToolPage = (props) => {
@@ -79,7 +83,6 @@ const ToolPage = (props) => {
   };
 
   const ToolOutputComponent = RESPONSE_OUTPUTS[id];
-  console.log('ToolOutputComponent here:', id, response, formOpen);
 
   return (
     <Grid {...styles.mainGridProps}>
