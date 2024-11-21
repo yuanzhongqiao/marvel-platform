@@ -1,5 +1,4 @@
 import { Grid, Typography } from '@mui/material';
-import Link from 'next/link';
 
 import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';

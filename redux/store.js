@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+
 import { auth, firestore, functions } from '../firebase/firebaseSetup';
 
 import authReducer from './slices/authSlice';
@@ -8,7 +9,6 @@ import onboardingReducer from './slices/onboardingSlice';
 import toolHistoryReducer from './slices/toolHistorySlice';
 import toolsReducer from './slices/toolsSlice';
 import userReducer from './slices/userSlice';
-
 
 const store = configureStore({
   reducer: {

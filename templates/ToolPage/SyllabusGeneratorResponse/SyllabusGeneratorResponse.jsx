@@ -1,4 +1,14 @@
-import { Fade, Grid, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import {
+  Fade,
+  Grid,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from '@mui/material';
 
 import { useSelector } from 'react-redux';
 
@@ -9,7 +19,10 @@ const SyllabusGeneratorResponse = () => {
 
   const renderTable = () => {
     return (
-      <TableContainer component={Paper} sx={{ background: 'none', boxShadow: 'none' }}>
+      <TableContainer
+        component={Paper}
+        sx={{ background: 'none', boxShadow: 'none' }}
+      >
         <Table sx={{ background: 'none' }}>
           <TableHead>
             <TableRow>
@@ -42,19 +55,25 @@ const SyllabusGeneratorResponse = () => {
               <TableCell>Objectives</TableCell>
               <TableCell>
                 <ul>
-                  {response.course_description_objectives.objectives.map((objective, index) => (
-                    <li key={index}>{objective}</li>
-                  ))}
+                  {response.course_description_objectives.objectives.map(
+                    (objective, index) => (
+                      <li key={index}>{objective}</li>
+                    )
+                  )}
                 </ul>
               </TableCell>
             </TableRow>
             <TableRow>
-              <TableCell sx={styles.lastRowCellProps}>Learning Outcomes</TableCell>
+              <TableCell sx={styles.lastRowCellProps}>
+                Learning Outcomes
+              </TableCell>
               <TableCell sx={styles.lastRowCellProps}>
                 <ul>
-                  {response.course_description_objectives.intended_learning_outcomes.map((outcome, index) => (
-                    <li key={index}>{outcome}</li>
-                  ))}
+                  {response.course_description_objectives.intended_learning_outcomes.map(
+                    (outcome, index) => (
+                      <li key={index}>{outcome}</li>
+                    )
+                  )}
                 </ul>
               </TableCell>
             </TableRow>
@@ -66,9 +85,7 @@ const SyllabusGeneratorResponse = () => {
 
   return (
     <Fade in>
-      <Grid {...styles.mainGridProps}>
-        {renderTable()}
-      </Grid>
+      <Grid {...styles.mainGridProps}>{renderTable()}</Grid>
     </Fade>
   );
 };

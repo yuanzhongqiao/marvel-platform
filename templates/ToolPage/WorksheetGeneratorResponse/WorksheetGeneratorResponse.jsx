@@ -1,11 +1,11 @@
 import { Fade, Grid, Typography } from '@mui/material';
 
-import { useSelector } from 'react-redux';
+// import { useSelector } from 'react-redux';
 
 import styles from './styles';
 
 const WorksheetGeneratorResponse = () => {
-  const { response } = useSelector((state) => state.tools);
+  // const { response } = useSelector((state) => state.tools);
 
   const hasTitle = false;
 
@@ -18,11 +18,7 @@ const WorksheetGeneratorResponse = () => {
   };
 
   const renderQuestions = () => {
-    return (
-      <Grid {...styles.questionsGridProps}>
-        Hello World !
-      </Grid>
-    );
+    return <Grid {...styles.questionsGridProps}>Hello World !</Grid>;
   };
 
   return (
