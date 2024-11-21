@@ -1,10 +1,11 @@
 import { forwardRef } from 'react';
-import { DatePickerElement } from 'react-hook-form-mui';
-import { Grid, Typography, Tooltip } from '@mui/material';
+
 import { Help } from '@mui/icons-material';
+import { Grid, Tooltip, Typography } from '@mui/material';
 import dayjs from 'dayjs';
-import customParseFormat from 'dayjs/plugin/customParseFormat';
 import advancedFormat from 'dayjs/plugin/advancedFormat';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+import { DatePickerElement } from 'react-hook-form-mui';
 
 import styles from './styles';
 
@@ -26,7 +27,7 @@ dayjs.extend(advancedFormat);
  *
  * @return {JSX.Element} - The rendered date picker input field component.
  */
-const PrimaryDatePickerInput = forwardRef((props, ref) => {
+const PrimaryDatePickerInput = forwardRef((props) => {
   const {
     id,
     error,
@@ -42,9 +43,7 @@ const PrimaryDatePickerInput = forwardRef((props, ref) => {
 
   const renderLabel = () => (
     <Grid {...styles.textFieldLabelGridProps}>
-      <Typography {...styles.labelProps(error)}>
-        {title}
-      </Typography>
+      <Typography {...styles.labelProps(error)}>{title}</Typography>
       {tooltip && (
         <Tooltip placement="top" title={tooltip} sx={{ ml: 1 }}>
           <Help />
@@ -74,4 +73,4 @@ const PrimaryDatePickerInput = forwardRef((props, ref) => {
   );
 });
 
-export default PrimaryDatePickerInput; 
+export default PrimaryDatePickerInput;

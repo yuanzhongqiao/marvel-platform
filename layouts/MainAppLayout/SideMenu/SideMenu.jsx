@@ -8,13 +8,12 @@ import KAIAvatar from '@/assets/svg/KAIAvatar.svg';
 
 import ROUTES from '@/constants/routes';
 
+import UserAvatar from '../../../components/UserAvatar';
 import NavMenu from '../NavMenu';
 
 import styles from './styles';
 
 import { auth } from '@/redux/store';
-
-import UserAvatar from '../../../components/UserAvatar';
 
 /**
  * Renders the Side Menu.

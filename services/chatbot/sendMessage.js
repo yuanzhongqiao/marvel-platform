@@ -1,11 +1,9 @@
 import { httpsCallable } from 'firebase/functions';
-import { useContext } from 'react';
 
-import { AuthContext } from '@/providers/GlobalProvider';
 import { setError, setStreaming, setTyping } from '@/redux/slices/chatSlice';
 import { functions } from '@/redux/store';
 
-const sendMessage = async (payload, dispatch, handleOpenSnackBar) => {
+const sendMessage = async (payload, dispatch) => {
   try {
     const sendCommunication = httpsCallable(functions, 'chat');
     const response = await sendCommunication(payload);
@@ -18,8 +16,13 @@ const sendMessage = async (payload, dispatch, handleOpenSnackBar) => {
     setTimeout(() => {
       dispatch(setError(null));
     }, 3000);
+
+    // eslint-disable-next-line no-console
     console.error('Error could not send message', err);
+
+    // eslint-disable-next-line no-alert
     alert('Error could not send message');
+    return null;
   }
 };
 

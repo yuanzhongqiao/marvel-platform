@@ -4,18 +4,29 @@ const evaluateCondition = (condition, values, debug = false) => {
   const evaluate = (cond) => {
     const { field, operator, value } = cond;
     const fieldValue = values[field];
-    if (debug) console.log('fieldValue', fieldValue, 'operator', operator);
+
+    if (debug)
+      // eslint-disable-next-line no-console
+      console.log('fieldValue', fieldValue, 'operator', operator);
 
     switch (operator) {
       case 'equals':
-        if (debug) console.log('equals', fieldValue === value);
+        if (debug)
+          // eslint-disable-next-line no-console
+          console.log('equals', fieldValue === value);
+
         return fieldValue === value;
       case 'notEmpty':
         if (debug)
+          // eslint-disable-next-line no-console
           console.log('notEmpty', fieldValue && fieldValue.trim() !== '');
+
         return fieldValue && fieldValue.trim() !== '';
       case 'greaterThan':
-        if (debug) console.log('greaterThan', parseInt(fieldValue, 10) > value);
+        if (debug)
+          // eslint-disable-next-line no-console
+          console.log('greaterThan', parseInt(fieldValue, 10) > value);
+
         return parseInt(fieldValue, 10) > value;
       default:
         return false;

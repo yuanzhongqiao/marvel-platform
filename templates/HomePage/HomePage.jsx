@@ -18,7 +18,7 @@ const TABS = ['All', 'Questions', 'Planning', 'Feedback'];
 
 const HomePage = (props) => {
   const { data: unsortedData, loading } = props;
-  const data = [...unsortedData || []].sort((a, b) => a.id - b.id);
+  const data = [...(unsortedData || [])].sort((a, b) => a.id - b.id);
 
   const [currentTab, setCurrentTab] = useState(TABS[0]);
 

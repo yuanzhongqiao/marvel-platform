@@ -53,6 +53,7 @@ export const updateUserData = createAsyncThunk(
 
       return data;
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.log('error in updateUserData', error);
       return rejectWithValue(error.message);
     }

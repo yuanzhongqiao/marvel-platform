@@ -1,17 +1,11 @@
 const admin = require('firebase-admin');
-const storage = admin.storage();
-const {
-  onCall,
-  HttpsError,
-  onRequest,
-} = require('firebase-functions/v2/https');
+const { onCall, HttpsError } = require('firebase-functions/v2/https');
 const { default: axios } = require('axios');
 const { logger } = require('firebase-functions/v1');
 const { Timestamp } = require('firebase-admin/firestore');
 const { BOT_TYPE, AI_ENDPOINTS } = require('../constants');
 
-// const DEBUG = process.env.DEBUG;
-
+const DEBUG = process.env.DEBUG;
 
 /**
  * Simulates communication with the Marvel AI endpoint.
@@ -176,7 +170,6 @@ const chat = onCall(async (props) => {
     throw new HttpsError('internal', error.message);
   }
 });
-
 
 /**
  * This creates a chat session for a user.

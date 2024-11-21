@@ -17,10 +17,10 @@ import { TOOLS_ID } from '@/constants/tools';
 
 import FlashCardList from './FlashCardList';
 import MultipleChoiceResponse from './MultipleChoiceResponse';
-import SyllabusGeneratorResponse from './SyllabusGeneratorResponse';
-import WorksheetGeneratorResponse from './WorksheetGeneratorResponse';
 import styles from './styles';
+import SyllabusGeneratorResponse from './SyllabusGeneratorResponse';
 import ToolForm from './ToolForm';
+import WorksheetGeneratorResponse from './WorksheetGeneratorResponse';
 
 import { resetCommunicator, setFormOpen } from '@/redux/slices/toolsSlice';
 import theme from '@/theme/theme';

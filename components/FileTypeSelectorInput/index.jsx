@@ -1,14 +1,25 @@
-import { Grid, Typography, Tooltip } from '@mui/material';
-import { useFormContext, useWatch } from 'react-hook-form-mui';
 import { Help } from '@mui/icons-material';
+import { Grid, Tooltip, Typography } from '@mui/material';
+import { useWatch } from 'react-hook-form-mui';
 
 import PrimaryFileUpload from '@/components/PrimaryFileUpload';
-import PrimaryTextFieldInput from '@/components/PrimaryTextFieldInput';
 import PrimarySelectorInput from '@/components/PrimarySelectorInput';
+import PrimaryTextFieldInput from '@/components/PrimaryTextFieldInput';
 
 import styles from './styles';
 
-const FileTypeSelectorInput = ({ name, label, fileTypes, tooltip, error, helperText, setValue, getValues, ref, control }) => {
+const FileTypeSelectorInput = ({
+  name,
+  label,
+  fileTypes,
+  tooltip,
+  error,
+  helperText,
+  setValue,
+  getValues,
+  ref,
+  control,
+}) => {
   const selectedFileType = useWatch({ control });
 
   const renderLabel = (text) => (
@@ -23,7 +34,14 @@ const FileTypeSelectorInput = ({ name, label, fileTypes, tooltip, error, helperT
   );
 
   const renderInputField = () => {
-    const urlOnlyTypes = ['GOOGLE_DOCS', 'GOOGLE_SHEETS', 'GOOGLE_SLIDES', 'GOOGLE_DRIVE', 'URL', 'youtube_url'];
+    const urlOnlyTypes = [
+      'GOOGLE_DOCS',
+      'GOOGLE_SHEETS',
+      'GOOGLE_SLIDES',
+      'GOOGLE_DRIVE',
+      'URL',
+      'youtube_url',
+    ];
 
     if (urlOnlyTypes.includes(selectedFileType[name])) {
       return (
@@ -31,7 +49,7 @@ const FileTypeSelectorInput = ({ name, label, fileTypes, tooltip, error, helperT
           <PrimaryTextFieldInput
             name={`${name}_url`}
             id={`${name}_url`}
-            title={renderLabel("Type URL")}
+            title={renderLabel('Type URL')}
             placeholder="Enter URL e.g http://..."
             control={control}
             error={error}
@@ -39,10 +57,10 @@ const FileTypeSelectorInput = ({ name, label, fileTypes, tooltip, error, helperT
           />
         </Grid>
       );
-    } else {
-      return (
-        <>
-          {/* <Grid item {...styles.inputGridProps}>
+    }
+    return (
+      <>
+        {/* <Grid item {...styles.inputGridProps}>
             <PrimaryTextFieldInput
               name={`${name}_url`}
               id={`${name}_url`}
@@ -58,29 +76,28 @@ const FileTypeSelectorInput = ({ name, label, fileTypes, tooltip, error, helperT
               OR
             </Typography>
           </Grid> */}
-          <Grid item {...styles.inputGridProps} sx={{ marginTop: '-30px' }}>
-            <PrimaryFileUpload
-              name={`${name}_file`}
-              id={`${name}_file`}
-              title={renderLabel("Upload File")}
-              control={control}
-              setValue={setValue}
-              error={error}
-              helperText={helperText}
-              multiple
-              placeholder="Choose Files to Upload"
-              showChips
-              showCheckbox
-              displayEmpty
-              ref={ref}
-              getValues={() => getValues()}
-              color="purple"
-              bgColor="#23252A"
-            />
-          </Grid>
-        </>
-      );
-    }
+        <Grid item {...styles.inputGridProps} sx={{ marginTop: '-30px' }}>
+          <PrimaryFileUpload
+            name={`${name}_file`}
+            id={`${name}_file`}
+            title={renderLabel('Upload File')}
+            control={control}
+            setValue={setValue}
+            error={error}
+            helperText={helperText}
+            multiple
+            placeholder="Choose Files to Upload"
+            showChips
+            showCheckbox
+            displayEmpty
+            ref={ref}
+            getValues={() => getValues()}
+            color="purple"
+            bgColor="#23252A"
+          />
+        </Grid>
+      </>
+    );
   };
 
   return (
@@ -92,7 +109,7 @@ const FileTypeSelectorInput = ({ name, label, fileTypes, tooltip, error, helperT
           control={control}
           menuList={fileTypes.map((type) => ({
             id: type.key,
-            label: type.label
+            label: type.label,
           }))}
         />
       </Grid>
@@ -101,4 +118,4 @@ const FileTypeSelectorInput = ({ name, label, fileTypes, tooltip, error, helperT
   );
 };
 
-export default FileTypeSelectorInput; 
+export default FileTypeSelectorInput;
