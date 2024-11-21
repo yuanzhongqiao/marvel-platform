@@ -20,7 +20,6 @@ module.exports = {
 
   /* Marvel AI */
   chat: marvelAIController.chat,
-  tool: marvelAIController.tool,
   createChatSession: marvelAIController.createChatSession,
   /* Migration Scripts - For running  */
   ...migrationScripts,

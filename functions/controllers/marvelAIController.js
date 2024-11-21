@@ -9,12 +9,9 @@ const { default: axios } = require('axios');
 const { logger } = require('firebase-functions/v1');
 const { Timestamp } = require('firebase-admin/firestore');
 const { BOT_TYPE, AI_ENDPOINTS } = require('../constants');
-const express = require('express');
-const { v4: uuidv4 } = require('uuid');
-const busboy = require('busboy');
-const app = express();
 
-const DEBUG = process.env.DEBUG;
+// const DEBUG = process.env.DEBUG;
+
 
 /**
  * Simulates communication with the Marvel AI endpoint.
@@ -40,7 +37,6 @@ const marvelCommunicator = async (payload) => {
 
     const { messages, user, toolData, type } = payload.data;
     const isToolCommunicator = type === BOT_TYPE.TOOL;
-
     const MARVEL_API_KEY = process.env.MARVEL_API_KEY;
     const MARVEL_ENDPOINT = process.env.MARVEL_ENDPOINT;
 
@@ -161,7 +157,11 @@ const chat = onCall(async (props) => {
       }))
     );
 
-    await chatSession.ref.update({ messages: updatedResponseMessages });
+    // Update the chat session with the updated response messages and the current timestamp.
+    await chatSession.ref.update({
+      messages: updatedResponseMessages, // Update the messages array with the new messages and timestamps
+      updatedAt: Timestamp.fromMillis(Date.now()), // Set the updatedAt timestamp to the current time
+    });
 
     if (DEBUG) {
       logger.log(
@@ -177,136 +177,6 @@ const chat = onCall(async (props) => {
   }
 });
 
-/**
- * Handles tool communications by processing input data and optional file uploads.
- * It supports both JSON and form-data requests to accommodate different client implementations.
- *
- * @function tools
- * @param {Request} req - The Express request object, which includes form data and files.
- * @param {Response} res - The Express response object used to send back the HTTP response.
- * @return {void} Sends a response to the client based on the processing results.
- * @throws {HttpsError} Throws an error if processing fails or data is invalid.
- */
-app.post('/api/tool/', (req, res) => {
-  const bb = busboy({ headers: req.headers });
-
-  if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method Not Allowed' });
-  }
-
-  const uploads = [];
-  const data = [];
-
-  bb.on('file', (fieldname, file, info) => {
-    const { filename } = info;
-    const fileId = uuidv4();
-    const filePath = `uploads/${fileId}-${filename}`;
-    const { name: bucketName } = storage.bucket();
-
-    const fileWriteStream = storage
-      .bucket(bucketName)
-      .file(filePath)
-      .createWriteStream();
-
-    file.pipe(fileWriteStream);
-
-    const uploadPromise = new Promise((resolve, reject) => {
-      fileWriteStream.on('finish', async () => {
-        // Make the file publicly readable
-        await storage.bucket(bucketName).file(filePath).makePublic();
-
-        // Construct the direct public URL
-        const publicUrl = `https://storage.googleapis.com/${bucketName}/${filePath}`;
-
-        DEBUG &&
-          logger.log(`File ${filename} uploaded and available at ${publicUrl}`);
-
-        resolve({ filePath, url: publicUrl, filename });
-      });
-
-      fileWriteStream.on('error', reject);
-    });
-
-    uploads.push(uploadPromise);
-  });
-
-  bb.on('field', (name, value) => {
-    data[name] = value;
-  });
-
-  bb.on('finish', async () => {
-    try {
-      DEBUG && logger.log('data:', JSON.parse(data?.data));
-
-      const {
-        toolData: { inputs, ...otherToolData },
-        ...otherData
-      } = JSON.parse(data?.data);
-
-      const results = await Promise.all(uploads);
-
-      res.set('Access-Control-Allow-Origin', '*'); // @todo: set the correct origin for security!
-      res.set('Access-Control-Allow-Methods', 'POST');
-      res.set('Access-Control-Allow-Headers', 'Content-Type');
-
-      const modifiedInputs =
-        uploads?.length > 0
-          ? [...inputs, { name: 'files', value: results }]
-          : inputs;
-
-      const response = await marvelCommunicator({
-        data: {
-          ...otherData,
-          toolData: {
-            ...otherToolData,
-            tool_id: otherToolData.toolId,
-            inputs: modifiedInputs,
-          },
-        },
-      });
-      DEBUG && logger.log(response);
-
-      const topicInput = modifiedInputs.find((input) => input.name === 'topic');
-      const topic = topicInput ? topicInput.value : null;
-
-      await saveResponseToFirestore({
-        response: response.data.data,
-        toolId: otherToolData.toolId,
-        topic,
-        userId: otherData.user.id,
-      });
-
-      res.status(200).json({ success: true, data: response.data });
-    } catch (error) {
-      logger.error('Error processing request:', error);
-      res.status(500).json({ success: false, message: error?.message });
-    }
-  });
-
-  bb.end(req.rawBody);
-});
-
-/**
- * Save the tool session response to Firestore
- * @param {object} sessionData - The data to be saved to Firestore
- * @param {string} userId - The ID of the user
- */
-const saveResponseToFirestore = async (sessionData) => {
-  try {
-    const toolSessionRef = await admin
-      .firestore()
-      .collection('toolSessions')
-      .add({
-        ...sessionData,
-        createdAt: Timestamp.fromMillis(Date.now()),
-      });
-    if (DEBUG) {
-      logger.log(`Tool session saved with ID: ${toolSessionRef.id}`);
-    }
-  } catch (error) {
-    logger.error('Error saving tool session to Firestore:', error);
-  }
-};
 
 /**
  * This creates a chat session for a user.
@@ -327,11 +197,30 @@ const createChatSession = onCall(async (props) => {
   try {
     DEBUG && logger.log('Communicator started, data:', props.data);
 
-    const { user, message, type } = props.data;
+    const { user, message, type, systemMessage } = props.data;
+
+    // Ensure user id in request is same as user.id
+    if (props.auth.uid !== user.id) {
+      throw new HttpsError(
+        'permission-denied',
+        'User ID does not match the authenticated user'
+      );
+    }
 
     if (!user || !message || !type) {
       logger.log('Missing required fields', props.data);
       throw new HttpsError('invalid-argument', 'Missing required fields');
+    }
+
+    /**
+     * If a system message is provided, sets the timestamp of the system message to the current time.
+     * This is done to ensure that the timestamp of the system message is in the same format as the timestamp of user messages.
+     *
+     * @param {Object} systemMessage - The system message object, or null if no system message is provided.
+     */
+    if (systemMessage != null) {
+      // Set the timestamp of the system message to the current time
+      systemMessage.timestamp = Timestamp.fromMillis(Date.now());
     }
 
     const initialMessage = {
@@ -344,17 +233,23 @@ const createChatSession = onCall(async (props) => {
       .firestore()
       .collection('chatSessions')
       .add({
-        messages: [initialMessage],
+        messages:
+          systemMessage == null
+            ? [initialMessage]
+            : [systemMessage, initialMessage],
         user,
         type,
         createdAt: Timestamp.fromMillis(Date.now()),
         updatedAt: Timestamp.fromMillis(Date.now()),
       });
 
-    // Send trigger message to ReX AI
+    // Send trigger message to Marvel AI
     const response = await marvelCommunicator({
       data: {
-        messages: [initialMessage],
+        messages:
+          systemMessage == null
+            ? [initialMessage]
+            : [systemMessage, initialMessage],
         user,
         type,
       },
@@ -388,9 +283,17 @@ const createChatSession = onCall(async (props) => {
     const updatedChatSession = await chatSessionRef.get();
     DEBUG && logger.log('Updated chat session: ', updatedChatSession.data());
 
+    /**
+     * Creates a new chat session object by extracting relevant data from the Firestore document. Converts Firestore timestamps to ISO strings and includes the document ID.
+     * @param {Object} updatedChatSession The Firestore document containing the chat session data.
+     * @return {Object} The new chat session object.
+     */
     const createdChatSession = {
-      ...updatedChatSession.data(),
-      id: updatedChatSession.id,
+      ...updatedChatSession.data(), // Extract relevant data from Firestore document
+      // Convert Firestore timestamps to ISO strings
+      createdAt: updatedChatSession.data().createdAt.toDate().toISOString(),
+      updatedAt: updatedChatSession.data().updatedAt.toDate().toISOString(),
+      id: updatedChatSession.id, // Include the document ID
     };
 
     DEBUG && logger.log('Created chat session: ', createdChatSession);
@@ -408,6 +311,5 @@ const createChatSession = onCall(async (props) => {
 
 module.exports = {
   chat,
-  tool: onRequest({ minInstances: 1 }, app),
   createChatSession,
 };
