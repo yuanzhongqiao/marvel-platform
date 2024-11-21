@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useContext } from 'react';
 
 import {
   ArrowDownwardOutlined,
@@ -54,6 +54,7 @@ import { firestore } from '@/redux/store';
 import fetchHistory from '@/redux/thunks/fetchHistory';
 import createChatSession from '@/services/chatbot/createChatSession';
 import sendMessage from '@/services/chatbot/sendMessage';
+import { AuthContext } from '@/providers/GlobalProvider';
 
 const ChatInterface = () => {
   const messagesContainerRef = useRef();
@@ -81,6 +82,8 @@ const ChatInterface = () => {
   const currentSession = chat;
   const chatMessages = currentSession?.messages;
   const showNewMessageIndicator = !fullyScrolled && streamingDone;
+
+  const { handleOpenSnackBar } = useContext(AuthContext);
 
   const startConversation = async (message) => {
     // Optionally dispatch a temporary message for the user's input
@@ -241,7 +244,7 @@ const ChatInterface = () => {
 
     // Ensure the user’s message is displayed before sending the message
     setTimeout(async () => {
-      await sendMessage({ message, id: sessionId }, dispatch);
+      await sendMessage({ message, id: sessionId }, dispatch, handleOpenSnackBar);
     }, 0);
     dispatch(setActionType(null));
   };

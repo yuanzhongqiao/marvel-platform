@@ -5,9 +5,8 @@ import { AuthContext } from '@/providers/GlobalProvider';
 import { setError, setStreaming, setTyping } from '@/redux/slices/chatSlice';
 import { functions } from '@/redux/store';
 
-const sendMessage = async (payload, dispatch) => {
+const sendMessage = async (payload, dispatch, handleOpenSnackBar) => {
   try {
-    const { handleOpenSnackBar } = useContext(AuthContext);
     const sendCommunication = httpsCallable(functions, 'chat');
     const response = await sendCommunication(payload);
 
