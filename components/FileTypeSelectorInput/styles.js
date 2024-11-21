@@ -21,4 +21,4 @@ const styles = {
   },
 };
 
-export default styles; 
+export default styles;

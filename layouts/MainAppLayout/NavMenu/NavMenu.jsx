@@ -2,8 +2,6 @@ import HistoryIcon from '@mui/icons-material/History';
 import { Grid, MenuItem } from '@mui/material';
 import { useRouter } from 'next/router';
 
-import DiscoveryIcon from '@/assets/svg/add-block.svg';
-
 import ChatBubble from '@/assets/svg/ChatBubbleV2.svg';
 import HomeIcon from '@/assets/svg/HomeIconOutline.svg';
 

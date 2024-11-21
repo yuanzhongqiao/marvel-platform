@@ -1,4 +1,4 @@
-import { useEffect, useRef, useContext } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 
 import {
   ArrowDownwardOutlined,
@@ -33,6 +33,7 @@ import styles from './styles';
 
 import TextMessage from './TextMessage';
 
+import { AuthContext } from '@/providers/GlobalProvider';
 import {
   openInfoChat,
   resetChat,
@@ -54,7 +55,6 @@ import { firestore } from '@/redux/store';
 import fetchHistory from '@/redux/thunks/fetchHistory';
 import createChatSession from '@/services/chatbot/createChatSession';
 import sendMessage from '@/services/chatbot/sendMessage';
-import { AuthContext } from '@/providers/GlobalProvider';
 
 const ChatInterface = () => {
   const messagesContainerRef = useRef();
@@ -244,7 +244,11 @@ const ChatInterface = () => {
 
     // Ensure the user’s message is displayed before sending the message
     setTimeout(async () => {
-      await sendMessage({ message, id: sessionId }, dispatch, handleOpenSnackBar);
+      await sendMessage(
+        { message, id: sessionId },
+        dispatch,
+        handleOpenSnackBar
+      );
     }, 0);
     dispatch(setActionType(null));
   };

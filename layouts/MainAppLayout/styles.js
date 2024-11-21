@@ -45,7 +45,7 @@ const styles = {
       },
     }),
   },
-  contentGridProps: (extraContentProps, isToolPage) => ({
+  contentGridProps: (extraContentProps) => ({
     container: true,
     item: true,
     mobileSmall: true,

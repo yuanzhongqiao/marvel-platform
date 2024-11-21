@@ -1,8 +1,8 @@
 import { forwardRef, useRef, useState } from 'react';
-import { useFormContext, MultiSelectElement } from 'react-hook-form-mui';
 
 import { FileUploadOutlined } from '@mui/icons-material';
 import { Chip, Grid, IconButton, Typography } from '@mui/material';
+import { MultiSelectElement } from 'react-hook-form-mui';
 
 import styles from './styles';
 
@@ -32,20 +32,12 @@ const PrimaryFileUpload = forwardRef((props, ref) => {
     color,
     bgColor,
     control,
-    showCheckbox,
-    showChips,
     setValue,
     multiple,
     error,
-    preserveOrder,
-    displayEmpty,
-    ...otherProps
   } = props;
 
-  const { getValues } = useFormContext();
   const fileInputRef = useRef();
-
-  const defaultValues = getValues(name) || [];
 
   const [files, setFiles] = useState([]);
 
@@ -131,11 +123,10 @@ const PrimaryFileUpload = forwardRef((props, ref) => {
         labelId={`${id}-label`}
         endAdornment={renderEndIcon()}
         multiple
-
         control={control}
-        displayEmpty={true}
+        displayEmpty
         showCheckbox={false}
-        showChips={true}
+        showChips
         preserveOrder={false}
         {...styles.selectInputProps(color, bgColor)}
         formControlProps={{

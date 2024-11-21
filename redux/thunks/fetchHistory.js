@@ -63,6 +63,7 @@ const fetchHistory = createAsyncThunk(
       // Return the fetched chat history
       return history;
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Error fetching history:', error);
       throw new Error(error);
     }

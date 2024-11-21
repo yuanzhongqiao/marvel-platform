@@ -7,7 +7,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import Complete from './Complete';
 import FinalSteps from './FinalSteps';
 import ProfileSetupForm from './ProfileSetupForm';
-import SystemConfigs from './SystemConfigs/SystemsConfig';
 import Welcome from './Welcome';
 
 import {
