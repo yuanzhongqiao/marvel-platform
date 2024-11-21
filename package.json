@@ -3,17 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "install:all": "npm i && cd functions && npm i && cd ..",
     "dev": "next dev",
-    "build": "npm i && next build",
+    "dev:all": "concurrently --kill-others-on-fail \"npm run emulators\" \"npm run dev\"",
     "start": "next start",
+    "export": "next export",
+    "build": "npm i && next build",
+    "emulators": "firebase emulators:start",
     "lint": "eslint --cache --ext .jsx --ext .js .",
     "lint:fix": "eslint --ext .jsx --ext .js ./ --fix",
-    "format": "eslint --fix",
-    "export": "next export",
-    "deploy": "npm run build:next && npm run export && firebase deploy",
+    "deploy": "npm run build && npm run export && firebase deploy",
     "deploy:frontend": "npm run build && npm run export && firebase deploy --only hosting",
-    "serve": "npm run build:next && firebase serve",
-    "emulators": "firebase emulators:start"
+    "kill-emulators": "lsof -t -i:8080 -i:9000 | xargs kill -9"
   },
   "dependencies": {
     "@emotion/react": "^11.11.0",
@@ -47,6 +48,7 @@
   },
   "devDependencies": {
     "@svgr/webpack": "^8.0.1",
+    "concurrently": "^9.1.0",
     "eslint": "8.40.0",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-next": "12.3.0",
