@@ -30,16 +30,15 @@ Marvel AI is an open-source project by Reality AI, designed to provide smart too
 ## Architecture
 The "Marvel" platform is structured into two main components: Firebase and AI. The Firebase side, detailed in this repository, encompasses both the frontend, developed with NextJS and hosted on Firebase Hosting, and the backend, which includes user management and session handling via Firebase Functions like `signUpUser` and `createChatSession`. The `communicator` function acts as a proxy for chat interactions between the Firebase infrastructure and the AI services. Tool requests (like "Quizify" and "YouTube Flashcard Generator") are sent directly from the frontend to the AI endpoints. Firestore DB is utilized for data storage. The AI endpoints are housed in a separate repository, including a chatbot and tools like "Quizify" and "Flashcard Generator." 
 
-![Architecture Diagram](https://github.com/marvelai-org/marvel-platform/blob/2400bf1b10af77b57976778a108f3f2296aa5215/Marvel%20Architecture.png)
 
 ### Folder Structure
 ## Folder Structure Overview
 
 - **`/`**:
-  Standard firebase project structure, having frontend in the root and functions in the functions folder.
+  Standard firebase project structure, having frontend, NEXTJS files in the root and backend in the functions folder.
 
 - **`/functions`**:
-  Houses the Firebase Functions, which are serverless functions responsible for backend processes such as AI chatbot and tools communicators
+  Houses the Firebase Functions, which are serverless functions responsible for backend processes such as AI chatbot and user signup. Any operation which is sensitive or compute intensive or background tasks should be placed in functions.
 
 ## Key Files
 - **`firebase.json`**:

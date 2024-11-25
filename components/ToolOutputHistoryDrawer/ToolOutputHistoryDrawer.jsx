@@ -7,14 +7,14 @@ import { TOOLS_ID } from '@/constants/tools';
 import styles from './styles';
 
 import FlashCardsOutput from './toolRenderers/FlashCardsOutput';
-import MultipleChoiceQuizOutput from './toolRenderers/MultipleChoiceQuizOutput';
+import QuizQuizOutput from './toolRenderers/QuizQuizOutput';
 
 import { convertToUnixTimestamp } from '@/utils/FirebaseUtils';
 import { copyToClipboard, exportToCSV } from '@/utils/ToolHistoryUtils';
 
 const DRAWER_RENDERERS = {
-  [TOOLS_ID.GEMINI_QUIZIFY]: MultipleChoiceQuizOutput,
-  [TOOLS_ID.GEMINI_DYNAMO]: FlashCardsOutput,
+  [TOOLS_ID.QUIZ_GENERATOR]: QuizQuizOutput,
+  [TOOLS_ID.FLASHCARDS_GENERATOR]: FlashCardsOutput,
 };
 
 const DEFAULT_DATA = {
