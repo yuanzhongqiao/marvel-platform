@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 
 import styles from './styles';
 
-const MultipleChoiceResponse = () => {
+const QuizResponse = () => {
   const { response } = useSelector((state) => state.tools);
 
   const hasTitle = false;
@@ -60,4 +60,4 @@ const MultipleChoiceResponse = () => {
     </Fade>
   );
 };
-export default MultipleChoiceResponse;
+export default QuizResponse;

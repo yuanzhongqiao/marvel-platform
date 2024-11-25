@@ -2,7 +2,7 @@ import { Grid, List, ListItem, Typography } from '@mui/material';
 
 import styles from '../styles';
 
-const MultipleChoiceQuizOutput = ({ data }) => {
+const QuizQuizOutput = ({ data }) => {
   const panelData = data?.response || [];
 
   const renderExplanation = (explanation) => {
@@ -51,4 +51,4 @@ const MultipleChoiceQuizOutput = ({ data }) => {
   );
 };
 
-export default MultipleChoiceQuizOutput;
+export default QuizQuizOutput;

@@ -16,7 +16,7 @@ import ROUTES from '@/constants/routes';
 import { TOOLS_ID } from '@/constants/tools';
 
 import FlashCardList from './FlashCardList';
-import MultipleChoiceResponse from './MultipleChoiceResponse';
+import QuizResponse from './QuizResponse';
 import styles from './styles';
 import SyllabusGeneratorResponse from './SyllabusGeneratorResponse';
 import ToolForm from './ToolForm';
@@ -26,8 +26,8 @@ import { resetCommunicator, setFormOpen } from '@/redux/slices/toolsSlice';
 import theme from '@/theme/theme';
 
 const RESPONSE_OUTPUTS = {
-  [TOOLS_ID.GEMINI_DYNAMO]: FlashCardList,
-  [TOOLS_ID.GEMINI_QUIZIFY]: MultipleChoiceResponse,
+  [TOOLS_ID.FLASHCARDS_GENERATOR]: FlashCardList,
+  [TOOLS_ID.QUIZ_GENERATOR]: QuizResponse,
   [TOOLS_ID.WORKSHEET_GENERATOR]: WorksheetGeneratorResponse,
   [TOOLS_ID.SYLLABUS_GENERATOR]: SyllabusGeneratorResponse,
 };

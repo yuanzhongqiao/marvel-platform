@@ -1,24 +1,29 @@
 rules_version = '2';
+
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /users/{userId} {
-      allow read: if true; // Allow all read operations
-      allow write: if request.auth.uid != null 
-                   && request.auth.uid == userId // Ensure the user is the owner
-    }
-    
-    match /chatSessions/{sessionId} {
-      allow read, write: if request.auth != null && resource.data.user.id == request.auth.uid;
-      allow write: if request.auth.uid != null; // Allow write if user is authenticated
+    match /users/{uid} {
+      // Allow read access to all users
+      allow read: if true;
+      
+      // Allow write access only if the user is authenticated and is writing to their own document
+      allow write: if request.auth != null && request.auth.uid == uid;
     }
 
-    match /tools/{toolId} {
-      allow read, write: if true; // Example rule allowing all read and write operations for tools
-      // Adjust read and write rules as per your application's needs
+    match /chatSessions/{id} {
+      allow read: if true;
+      // Allow write access if the user is authenticated and the document's userId matches the authenticated user's ID
+      allow write: if request.auth != null && request.resource.data.userId == request.auth.uid;
     }
-    match /toolSessions/{sessionId} {
-      allow read: if request.auth != null; // Allow read if user is authenticated
-      allow write: if request.auth != null; // Allow write if user is authenticated
+
+    match /toolSessions/{id} {
+      allow read: if true;
+      // Allow write access if the user is authenticated and the document's userId matches the authenticated user's ID
+      allow write: if request.auth != null && request.resource.data.userId == request.auth.uid;
+    }
+    
+    match /tools/{id} {
+      allow read: if true;
     }
   }
 }

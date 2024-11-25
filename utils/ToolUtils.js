@@ -11,7 +11,7 @@ const getToolData = (props) => {
   const { toolId, item } = props;
 
   switch (toolId) {
-    case TOOLS_ID.GEMINI_QUIZIFY: {
+    case TOOLS_ID.QUIZ_GENERATOR: {
       const title = `Multiple Choice Assessment - ${item.topic}`;
       const description =
         item.description ||
@@ -31,7 +31,7 @@ const getToolData = (props) => {
         ...item,
       };
     }
-    case TOOLS_ID.GEMINI_DYNAMO: {
+    case TOOLS_ID.FLASHCARDS_GENERATOR: {
       const concepts = item.response?.map((card) => card.concept) || [];
       const primaryConcept = concepts[0] || 'Various Concepts';
 
@@ -48,16 +48,16 @@ const getToolData = (props) => {
       const title = `Flashcards on ${primaryConcept} and More`;
       const description = `Includes concepts like ${notableConcepts}`;
       const flashCards = item.response;
-      const dynamoBackgroundImgURL =
+      const flashcardBackgroundImgURL =
         'https://firebasestorage.googleapis.com/v0/b/kai-ai-f63c8.appspot.com/o/Dynamo.png?alt=media&token=db14183f-a294-49b2-a9de-0818b007c080';
-      const dynamoLogo =
+      const flashcardLogo =
         'https://firebasestorage.googleapis.com/v0/b/kai-ai-f63c8.appspot.com/o/YoutubeLogo.png?alt=media&token=2809083f-f816-41b6-8f86-80582b3da188';
 
       return {
         title,
         description,
-        backgroundImgURL: dynamoBackgroundImgURL,
-        logo: dynamoLogo,
+        backgroundImgURL: flashcardBackgroundImgURL,
+        logo: flashcardLogo,
         output: flashCards,
         ...item,
       };
