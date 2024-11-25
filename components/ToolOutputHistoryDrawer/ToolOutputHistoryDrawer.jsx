@@ -7,13 +7,13 @@ import { TOOLS_ID } from '@/constants/tools';
 import styles from './styles';
 
 import FlashCardsOutput from './toolRenderers/FlashCardsOutput';
-import QuizQuizOutput from './toolRenderers/QuizQuizOutput';
+import QuizOutput from './toolRenderers/QuizOutput';
 
 import { convertToUnixTimestamp } from '@/utils/FirebaseUtils';
 import { copyToClipboard, exportToCSV } from '@/utils/ToolHistoryUtils';
 
 const DRAWER_RENDERERS = {
-  [TOOLS_ID.QUIZ_GENERATOR]: QuizQuizOutput,
+  [TOOLS_ID.QUIZ_GENERATOR]: QuizOutput,
   [TOOLS_ID.FLASHCARDS_GENERATOR]: FlashCardsOutput,
 };
 
